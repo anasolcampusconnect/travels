@@ -1,23 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
-  LayoutDashboard, 
-  Upload, 
-  Download, 
-  History, 
-  Settings,
-  Menu,
-  X,
-  User,
-  Bell,
-  Search,
-  Package,
-  Truck,
-  MapPin,
-  ChevronDown,
-  LogOut,
-  HelpCircle,
-  Users
+  Menu, X, User, Bell, Search, Package, Truck, ChevronDown, LogOut, HelpCircle, Settings
 } from 'lucide-react';
 
 const Header = () => {
@@ -35,30 +19,16 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   
-  // Short names for display
-//   const navItems = [
-//   { path: '/dashboard', label: 'Overview', shortLabel: 'Home', icon: LayoutDashboard, color: 'from-blue-500 to-cyan-500' },
-//   { path: '/shipments', label: 'Shipments', shortLabel: 'Ship', icon: Package, color: 'from-green-500 to-emerald-500' },
-//   { path: '/book-parcel', label: 'Book Parcel', shortLabel: 'Book', icon: Truck, color: 'from-purple-500 to-pink-500' },
-//   { path: '/live-tracking', label: 'Live Tracking', shortLabel: 'Track', icon: MapPin, color: 'from-orange-500 to-red-500' },
-//   { path: '/admin', label: 'Admin Panel', shortLabel: 'Admin', icon: Users, color: 'from-indigo-500 to-purple-500' },
-//   { path: '/transactions', label: 'Transactions', shortLabel: 'Trans', icon: History, color: 'from-yellow-500 to-orange-500' },
-//   { path: '/preferences', label: 'Preferences', shortLabel: 'Prefs', icon: Settings, color: 'from-gray-500 to-gray-700' }
-// ];
-  
   const quickActions = [
-    { icon: Search, label: 'Quick Track', action: () => window.location.href = '/track' },
-    { icon: Truck, label: 'New Parcel', action: () => window.location.href = '/create-parcel' },
+    { icon: Search, label: 'Quick Track', action: () => window.location.hash = '#/track' },
+    { icon: Truck, label: 'New Parcel', action: () => window.location.hash = '#/create-parcel' },
     { icon: Bell, label: 'Notifications', badge: notifications }
   ];
   
   return (
     <header className={`
       fixed top-0 left-0 right-0 z-50 transition-all duration-300
-      ${scrolled 
-        ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-        : 'bg-white shadow-md'
-      }
+      ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-white shadow-md'}
     `}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
@@ -78,10 +48,6 @@ const Header = () => {
             </div>
           </Link>
           
-          {/* Desktop Navigation - With Ellipsis and Tooltip */}
-         
-         
-          
           {/* Right Section */}
           <div className="flex items-center gap-3 flex-shrink-0">
             {/* Quick Actions */}
@@ -98,7 +64,6 @@ const Header = () => {
                       {action.badge}
                     </span>
                   )}
-                  {/* Tooltip for quick actions */}
                   <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-20">
                     {action.label}
                   </div>
@@ -167,53 +132,36 @@ const Header = () => {
         
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-  <div className="lg:hidden py-4 border-t animate-slideDown">
-    <div className="border-t mt-4 pt-4">
-      <div className="flex items-center gap-3 px-4 py-2">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
-          <User className="w-5 h-5 text-white" />
-        </div>
-        <div>
-          <p className="font-semibold text-gray-800">Admin User</p>
-          <p className="text-xs text-gray-500">admin@parceltrack.com</p>
-        </div>
-      </div>
-      <button className="w-full mt-2 px-4 py-2 text-left text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-2">
-        <LogOut className="w-4 h-4" /> Logout
-      </button>
-    </div>
-  </div>
-)}
+          <div className="lg:hidden py-4 border-t animate-slideDown">
+            <div className="border-t mt-4 pt-4">
+              <div className="flex items-center gap-3 px-4 py-2">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 flex items-center justify-center">
+                  <User className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-800">Admin User</p>
+                  <p className="text-xs text-gray-500">admin@parceltrack.com</p>
+                </div>
+              </div>
+              <button className="w-full mt-2 px-4 py-2 text-left text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-2">
+                <LogOut className="w-4 h-4" /> Logout
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       
-      {/* Add custom animation styles */}
       <style jsx>{`
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(-10px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .animate-fadeIn {
-          animation: fadeIn 0.2s ease-out;
-        }
+        .animate-fadeIn { animation: fadeIn 0.2s ease-out; }
         @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-        .animate-slideDown {
-          animation: slideDown 0.3s ease-out;
-        }
+        .animate-slideDown { animation: slideDown 0.3s ease-out; }
       `}</style>
     </header>
   );
