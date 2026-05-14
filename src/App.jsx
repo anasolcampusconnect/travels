@@ -17,6 +17,7 @@ import HistoryPage from './pages/HistoryPage';
 import SettingsPage from './pages/SettingsPage';
 import HelpPage from './pages/HelpPage';
 import PendingPage from './pages/PendingPage';
+import NotificationsPage from './pages/NotificationsPage';  // Add this import
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/help" element={<HelpPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />  {/* Add this route */}
           
           {/* 404 - Not Found */}
           <Route path="*" element={<Navigate to="/" replace />} />

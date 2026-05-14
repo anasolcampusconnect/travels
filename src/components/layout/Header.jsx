@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   Menu, X, User, Bell, Search, Package, Truck, ChevronDown, LogOut, HelpCircle, Settings
 } from 'lucide-react';
@@ -10,6 +10,7 @@ const Header = () => {
   const [notifications, setNotifications] = useState(3);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   
   useEffect(() => {
     const handleScroll = () => {
@@ -20,9 +21,9 @@ const Header = () => {
   }, []);
   
   const quickActions = [
-    { icon: Search, label: 'Quick Track', action: () => window.location.hash = '#/track' },
-    { icon: Truck, label: 'New Parcel', action: () => window.location.hash = '#/create-parcel' },
-    { icon: Bell, label: 'Notifications', badge: notifications }
+    { icon: Search, label: 'Quick Track', action: () => navigate('/track') },
+    { icon: Truck, label: 'New Parcel', action: () => navigate('/create-parcel') },
+    { icon: Bell, label: 'Notifications', badge: notifications, action: () => navigate('/notifications') }
   ];
   
   return (
