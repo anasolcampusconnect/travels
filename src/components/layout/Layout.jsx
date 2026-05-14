@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-500 to-pink-500">
+    <div className="min-h-screen bg-gradient-to-br from-stone-200 to-stone-400">
       <Header />
       <div className="flex pt-16">
         {/* State ni props laaga Sidebar ki pass chesthunnam */}
