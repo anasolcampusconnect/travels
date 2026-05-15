@@ -1,13 +1,17 @@
+// src/pages/ParcelsPage.jsx
 import React, { useState } from 'react';
 import { 
-  Package, Search, Filter, Eye, Truck, 
+  Package, Search, Filter, MessageCircle, Truck, 
   CheckCircle, Clock, AlertCircle, Download,
-  ChevronLeft, ChevronRight, MoreVertical
+  ChevronLeft, ChevronRight, MoreVertical, X
 } from 'lucide-react';
+import CustomerChatPage from './CustomerChatPage';
 
 const ParcelsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [selectedParcel, setSelectedParcel] = useState(null);
   
   const parcels = [
     { id: 'TRK-987654321', sender: 'Ramesh Kumar', receiver: 'Suresh Reddy', from: 'Hyderabad', to: 'Bangalore', status: 'delivered', date: '2024-01-15', amount: '₹543' },
@@ -16,6 +20,16 @@ const ParcelsPage = () => {
     { id: 'TRK-998877665', sender: 'Anita Desai', receiver: 'Raj Malhotra', from: 'Chennai', to: 'Bangalore', status: 'picked_up', date: '2024-01-12', amount: '₹432' },
     { id: 'TRK-443322110', sender: 'Rajesh Kumar', receiver: 'Sunita Verma', from: 'Kolkata', to: 'Delhi', status: 'booking', date: '2024-01-11', amount: '₹678' }
   ];
+
+  const openChat = (parcel) => {
+    setSelectedParcel(parcel);
+    setIsChatOpen(true);
+  };
+
+  const closeChat = () => {
+    setIsChatOpen(false);
+    setSelectedParcel(null);
+  };
 
   const getStatusBadge = (status) => {
     const badges = {
@@ -128,14 +142,18 @@ const ParcelsPage = () => {
                     {getStatusBadge(parcel.status)}
                   </td>
                   <td className="px-6 py-4">
-                    <button className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors">
-                      <Eye className="w-4 h-4" />
+                    <button 
+                      onClick={() => openChat(parcel)}
+                      className="p-1.5 text-purple-600 hover:bg-purple-50 rounded-lg transition-colors"
+                      title="Chat with customer"
+                    >
+                      <MessageCircle className="w-4 h-4" />
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-        </table>
+          </table>
         </div>
         <div className="px-6 py-4 border-t flex justify-between items-center">
           <p className="text-sm text-gray-500">Showing 5 of 1,234 parcels</p>
@@ -148,6 +166,15 @@ const ParcelsPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Chat Panel */}
+      {isChatOpen && (
+        <CustomerChatPage 
+          onClose={closeChat} 
+          parcel={selectedParcel}
+          isModal={true}
+        />
+      )}
     </div>
   );
 };

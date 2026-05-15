@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import {
   Bell,
   Package,
@@ -15,6 +16,7 @@ import {
   Star,
   Filter,
   Search,
+  Home,
 } from "lucide-react";
 
 const initialNotifications = [
@@ -176,6 +178,11 @@ const NotificationsPage = () => {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
 
+  // NAVIGATE TO HOME
+  const goToHome = () => {
+    window.location.href = "/";
+  };
+
   const markAllAsRead = () => {
     setNotifications((prev) =>
       prev.map((item) => ({
@@ -201,6 +208,10 @@ const NotificationsPage = () => {
     );
   };
 
+  const deleteAllNotifications = () => {
+    setNotifications([]);
+  };
+
   const markAsRead = (id) => {
     setNotifications((prev) =>
       prev.map((item) =>
@@ -211,21 +222,22 @@ const NotificationsPage = () => {
     );
   };
 
+  // FRONTEND SEARCH
   const filteredNotifications = notifications
     .filter((item) => {
       if (filter === "unread") return !item.read;
       if (filter === "starred") return item.starred;
       return true;
     })
-    .filter(
-      (item) =>
-        item.title
-          .toLowerCase()
-          .includes(search.toLowerCase()) ||
-        item.message
-          .toLowerCase()
-          .includes(search.toLowerCase())
-    );
+    .filter((item) => {
+      const searchText = search.toLowerCase();
+
+      return (
+        item.title.toLowerCase().includes(searchText) ||
+        item.message.toLowerCase().includes(searchText) ||
+        item.time.toLowerCase().includes(searchText)
+      );
+    });
 
   const unreadCount = notifications.filter(
     (item) => !item.read
@@ -259,13 +271,39 @@ const NotificationsPage = () => {
           boxSizing: "border-box",
         }}
       >
+        {/* LEFT SECTION */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "16px",
+            flexWrap: "wrap",
           }}
         >
+<button
+  onClick={goToHome}
+  style={{
+   position: "relative",
+    top: "-40px",
+    left: "30px",
+    transform: "translateX(-55px)",
+    border: "none",
+    // background: "rgba(255,255,255,0.16)",
+    color: "white",
+    width: "34px",
+    height: "34px",
+    borderRadius: "10px",
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    backdropFilter: "blur(10px)",
+    zIndex: 100,
+  }}
+>
+  <ArrowLeft size={16} strokeWidth={2.7} />
+</button>
+          {/* ICON */}
           <div
             style={{
               width: "60px",
@@ -275,11 +313,13 @@ const NotificationsPage = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              marginLeft: "-40px",
             }}
           >
             <Bell size={30} />
           </div>
 
+          {/* TITLE */}
           <div>
             <h1
               style={{
@@ -303,6 +343,7 @@ const NotificationsPage = () => {
           </div>
         </div>
 
+        {/* RIGHT SECTION */}
         <div
           style={{
             display: "flex",
@@ -314,10 +355,13 @@ const NotificationsPage = () => {
           <div
             style={{
               background: "rgba(255,255,255,0.15)",
-              padding: "10px 18px",
+              padding: "11px 18px",
               borderRadius: "40px",
               fontSize: "14px",
               fontWeight: "600",
+              minHeight: "44px",
+              display: "flex",
+              alignItems: "center",
             }}
           >
             {unreadCount} Unread
@@ -327,19 +371,40 @@ const NotificationsPage = () => {
             onClick={markAllAsRead}
             style={{
               border: "none",
-              background: "white",
-              color: "#7c3aed",
-              padding: "10px 18px",
+              background: "rgba(255,255,255,0.16)",
+              color: "white",
+              padding: "11px 18px",
               borderRadius: "40px",
               fontWeight: "600",
               cursor: "pointer",
               display: "flex",
               alignItems: "center",
               gap: "8px",
+              minHeight: "44px",
             }}
           >
             <Check size={16} />
             Mark all read
+          </button>
+
+          <button
+            onClick={deleteAllNotifications}
+            style={{
+              border: "none",
+              background: "rgba(255,255,255,0.16)",
+              color: "white",
+              padding: "11px 18px",
+              borderRadius: "40px",
+              fontWeight: "600",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              minHeight: "44px",
+            }}
+          >
+            <Trash2 size={16} />
+            Delete all
           </button>
         </div>
       </div>
@@ -427,6 +492,21 @@ const NotificationsPage = () => {
         </div>
       </div>
 
+      {/* EMPTY STATE */}
+      {filteredNotifications.length === 0 && (
+        <div
+          style={{
+            textAlign: "center",
+            padding: "60px 20px",
+            color: "#64748b",
+            fontSize: "18px",
+            fontWeight: "600",
+          }}
+        >
+          No notifications found
+        </div>
+      )}
+
       {/* NOTIFICATION LIST */}
       <div
         style={{
@@ -442,20 +522,6 @@ const NotificationsPage = () => {
             <div
               key={item.id}
               onClick={() => markAsRead(item.id)}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(-3px)";
-                e.currentTarget.style.boxShadow =
-                  "0 16px 34px rgba(15,23,42,0.10)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform =
-                  "translateY(0px)";
-                e.currentTarget.style.boxShadow =
-                  item.read
-                    ? "0 6px 18px rgba(15,23,42,0.04)"
-                    : "0 12px 30px rgba(217,70,239,0.12)";
-              }}
               style={{
                 background: item.read
                   ? "rgba(255,255,255,0.92)"
@@ -466,11 +532,11 @@ const NotificationsPage = () => {
                 alignItems: "center",
                 justifyContent: "space-between",
                 border: item.read
-                ? `1px solid ${styles.border}`
-                : "2px solid #d946ef",
+                  ? `1px solid ${styles.border}`
+                  : "2px solid #d946ef",
                 boxShadow: item.read
                   ? "0 6px 18px rgba(15,23,42,0.04)"
-              : "0 12px 30px rgba(217,70,239,0.18)",
+                  : "0 12px 30px rgba(217,70,239,0.18)",
                 transition: "all 0.28s ease",
                 position: "relative",
                 cursor: "pointer",
@@ -487,8 +553,6 @@ const NotificationsPage = () => {
                     height: "10px",
                     borderRadius: "50%",
                     background: "#ec008c",
-                    boxShadow:
-                      "0 0 12px rgba(236,0,140,0.6)",
                   }}
                 />
               )}
@@ -519,51 +583,50 @@ const NotificationsPage = () => {
                 </div>
 
                 <div>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "10px",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        margin: 0,
-                        fontSize: "17px",
-                        fontWeight: item.read
-                          ? "600"
-                          : "700",
-                        color: "#1e293b",
-                      }}
-                    >
-                      {item.title}
-                    </h3>
+                 <div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "5px",
+  }}
+>
+  <h3
+    style={{
+      margin: 0,
+      fontSize: "17px",
+      fontWeight: item.read
+        ? "600"
+        : "700",
+      color: "#1e293b",
+    }}
+  >
+    {item.title}
+  </h3>
 
-                    {!item.read && (
-                      <span
-                        style={{
-                          background:
-                            "linear-gradient(90deg,#7c3aed,#ec008c)",
-                          color: "white",
-                          fontSize: "10px",
-                          padding: "5px 10px",
-                          borderRadius: "30px",
-                          fontWeight: "700",
-                          letterSpacing: "0.4px",
-                        }}
-                      >
-                        NEW
-                      </span>
-                    )}
-                  </div>
+  {!item.read && (
+    <span
+      style={{
+        background:
+          "linear-gradient(90deg,#7c3aed,#ec008c)",
+        color: "white",
+        fontSize: "10px",
+        padding: "5px 10px",
+        borderRadius: "30px",
+        fontWeight: "700",
+        letterSpacing: "0.4px",
+      }}
+    >
+      NEW
+    </span>
+  )}
+</div>
 
                   <p
                     style={{
-                      margin: 0,
+                      marginTop: "6px",
                       color: "#64748b",
                       fontSize: "14px",
-                      lineHeight: "1.6",
                     }}
                   >
                     {item.message}
@@ -597,9 +660,6 @@ const NotificationsPage = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    transition: "0.2s ease",
-                    boxShadow:
-                      "0 4px 10px rgba(15,23,42,0.04)",
                   }}
                 >
                   <Star
@@ -634,9 +694,6 @@ const NotificationsPage = () => {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    transition: "0.2s ease",
-                    boxShadow:
-                      "0 4px 10px rgba(15,23,42,0.04)",
                   }}
                 >
                   <Trash2
