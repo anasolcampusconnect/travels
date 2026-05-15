@@ -21,7 +21,7 @@ import {
   FileText,
   HelpCircle,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,QrCode
 } from 'lucide-react';
 
 const Sidebar = ({ collapsed, setCollapsed }) => {
@@ -35,7 +35,8 @@ const Sidebar = ({ collapsed, setCollapsed }) => {
         { path: '/import', label: 'Import Data', icon: Upload, color: '#10b981' },
         { path: '/admin', label: 'Admin Dashboard', icon: Users, color: '#8b5cf6' },
         { path: '/export', label: 'Export Data', icon: Download, color: '#f59e0b' },
-        { path: '/track', label: 'Track Parcel', icon: MapPin, color: '#ef4444' }
+        { path: '/track', label: 'Track Parcel', icon: MapPin, color: '#ef4444' },
+         { path: '/qr-booking', label: 'QR Booking', icon: QrCode, color: '#8b5cf6' }
       ]
     },
     {

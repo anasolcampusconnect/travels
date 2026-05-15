@@ -103,6 +103,14 @@ function App() {
               </Layout>
             </ProtectedRoute>
           } />
+
+          <Route path="/qr-booking" element={
+            <ProtectedRoute>
+              <Layout>
+                <QRBookingPage/>
+              </Layout>
+            </ProtectedRoute>
+          } />
           
           <Route path="/track/:id" element={
             <ProtectedRoute>
