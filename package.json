@@ -4,6 +4,7 @@
   "homepage": "https://anasolcampusconnect.github.io/travels/",
   "private": true,
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "@tanstack/react-query": "^5.100.10",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -24,6 +25,7 @@
     "react-hook-form": "^7.75.0",
     "react-hot-toast": "^2.6.0",
     "react-icons": "^5.6.0",
+    "react-qr-code": "^2.0.21",
     "react-router-dom": "^6.30.3",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
